@@ -1,0 +1,130 @@
+{% load static %}
+{% include "Admin/header.html" %}
+<style>
+    /* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Style for the form */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .col-sm-3 {
+        padding-top: 7px;
+    }
+
+    /* Style for the buttons */
+    .btn {
+        margin-right: 10px;
+    }
+
+    /* Style for the table */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    /* Style for the card */
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        margin-bottom: 20px;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">LOCATION REGISTRATION</h4>
+                    <form class="forms-sample" action="{% url 'locationreg' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="district">District Name</label>
+                            <select class="form-control" id="district" name="DistrictId">
+                                <option value="" selected disabled>select district</option>
+                                {% for d in data %}
+                                    <option value="{{d.DistrictId}}">{{d.DistrictName}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location Name</label>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="Location Name">
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">Register</button>
+                        <button type="reset" class="btn btn-light">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>SI no</th>
+                        <th>District Name</th>
+                        <th>Location Name</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lo in l %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ lo.DistrictId.DistrictName }}</td>
+                            <td>{{ lo.LocationName }}</td>
+                            <td><a href="{% url 'editlocation' id=lo.LocationId %}">Edit</a></td>
+                            <td><a href="{% url 'deletelocation' id=lo.LocationId %}">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+{% include "Admin/footer.html" %}

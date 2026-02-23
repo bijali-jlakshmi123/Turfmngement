@@ -1,0 +1,84 @@
+{% load static %}
+{% include "Admin/header.html" %}
+<style>
+    .main-panel {
+        margin: 0 auto;
+        width: 80%; /* Adjust width as needed */
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    td a {
+        text-decoration: none;
+    }
+
+</style>
+
+<div class="main-panel">
+
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">TIME REGISTRATION</h4>
+                <br>
+                <br>
+                <form class="forms-sample" action="{% url 'timereg' %}" method="POST">
+                    {% csrf_token %}
+
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Time</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="time" placeholder="Time">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mr-2">Register</button>
+                    <input type="reset" class="btn btn-light" value="Cancel">
+                </form>
+                <br>
+
+                <table border="1" align="center">
+                    <tr>
+                        <th>SI no</th>
+                        <th>Time</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    {% for d in ds %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ d.Time }}</td>
+                        <td><a href="{% url 'edittime' id=d.TimeId %}">Edit</a></td>
+                        <td><a href="">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<!-- content-wrapper ends -->
+{% include "Admin/footer.html" %}

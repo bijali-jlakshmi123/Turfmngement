@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'turfreg/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'turfreg/css/style.css' %}">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+
+</head>
+<body>
+<script src="{% static 'guest/jquery.min.js' %}"></script>
+<script>
+
+    $(document).ready(function() {
+<!--       alert('a');-->
+     $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+      $('#district').change(function () {
+        var district = $(this).val();
+<!--         alert(district);-->
+
+        $.ajax({
+          type: "POST",
+              url: '{% url "selectlocation" %}',
+          data: { did: district },
+          dataType: "json",
+          success: function (data) {
+            $('#location').empty();
+<!--           alert("test");-->
+              $.each(data, function (key, val) {
+        var row = '<option value="'+val.LocationId +'">'+ val.LocationName+'</option>';
+                   $('#location').append(row);
+
+          });
+
+          }
+        });
+      });
+    });
+
+</script>
+
+<div class="main">
+    <div class="container">
+        <div class="signup-content">
+            <div class="signup-img">
+                <img src="{% static 'turfreg/images/dominik-hofbauer-1yLt0422fYQ-unsplash.jpg' %}" alt="">
+            </div>
+            <div class="signup-form">
+                <form method="POST" class="register-form" id="register-form" action="{% url 'turftimereg' tr.TurfId %}"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h2>Time Registration</h2><br>
+
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="time">Time:</label>
+                            <div class="form-select">
+                                <select name="time" id="time">
+                                    <option>--Choose Time--</option>
+                                    {% for n in tb %}
+                                    <option value="{{n.TimeId}}">{{n.Time}}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="select-icon"><i class="zmdi zmdi-chevron-down"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-submit">
+                        <input type="submit" value="Reset All" class="submit" name="reset" id="reset"/>
+                        <input type="submit" value="Submit Form" class="submit" name="submit" id="submit"/>
+                    </div>
+                </form>
+                <table border="1" align="center">
+                    <tr>
+                        <td>SI no</td>
+                        <td>Time</td>
+                        <td>Delete</td>
+                    </tr>
+                    {% for d in time %}
+
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{d.TimeId.Time}}</td>
+                        <td><a href="">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- JS -->
+<script src="{% static 'turfreg/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'turfreg/js/main.js' %}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

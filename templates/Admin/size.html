@@ -1,0 +1,73 @@
+{% load static %}
+{% include "Admin/header.html" %}
+<div class="main-panel">
+
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">SIZE REGISTRATION</h4>
+                <br>
+                <br>
+                <form class="forms-sample" action="{% url 'sizereg' %}" method="POST">
+                    {% csrf_token %}
+
+
+                    <div class="form-group row">
+
+                        <label class="col-sm-3 col-form-label">Size</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="size"
+                                   placeholder="Size">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Amount</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="amount">
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary mr-2">Register</button>
+                    <input type="reset" class="btn btn-light" value="Cancel">
+
+
+                </form>
+                <br>
+                <table border="1" align="center">
+                    <tr>
+                        <td>SI no</td>
+                        <td>Size</td>
+                        <td>Amount</td>
+                        <td>Edit</td>
+                        <td>Delete</td>
+                    </tr>
+
+                    {% for i in data %}
+                    <tr>
+
+
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.Size}}</td>
+                        <td>{{i.Amount}}</td>
+                        <td><a href="{% url 'editsize' id=i.SizeId %}">Edit</a></td>
+                        <td><a href="{% url 'deletesize' id=i.SizeId %}">Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "Admin/footer.html" %}
+
+
+
+
+
+
+
+

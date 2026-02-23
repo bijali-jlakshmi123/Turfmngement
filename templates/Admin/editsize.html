@@ -1,0 +1,46 @@
+{% load static %}
+{% include "Admin/header.html" %}
+<div class="main-panel">
+
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">SIZE REGISTRATION</h4>
+                <br>
+                <br>
+                <form class="forms-sample" action="{% url 'editsize' cate.SizeId %}" method="POST" >
+                    {% csrf_token %}
+                    <div>
+
+                      <label class="col-sm-3 col-form-label">Size</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control"  name="size"
+                                   placeholder="Category Name" value="{{cate.Size}}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Amount</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="amount" value="{{cate.Amount}}">
+                        </div>
+                    </div>
+
+
+
+
+                    <button type=" submit" class="btn btn-primary mr-2">Register</button>
+                            <input type="reset" class="btn btn-light" value="Cancel">
+
+
+                </form>
+                <br>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- content-wrapper ends -->
+    {% include "Admin/footer.html" %}
+
+</div>

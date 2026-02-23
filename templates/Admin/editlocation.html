@@ -1,0 +1,51 @@
+{% load static %}
+{% include "Admin/header.html" %}
+<div class="main-panel">
+
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">LOCATION REGISTRATION</h4>
+                <br>
+                <br>
+                <form class="forms-sample" action="{% url 'editlocation' locobj.LocationId %}" method="POST" >
+                    {% csrf_token %}
+
+                     <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">District Name</label>
+                        <div class="col-sm-9">
+                           <select class="form-control" name="DistrictId">
+                               <option value="" selected disabled>select district</option>
+                               {% for d in data %}
+                               <option value="{{d.DistrictId}}">{{d.DistrictName}}</option>
+                            {% endfor %}
+
+                               <td></td>
+
+                           </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Location Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control"  name="location"
+                                   placeholder="District Name" value="{{locobj.LocationName}}">
+                        </div>
+                    </div>
+
+
+                    <button type=" submit" class="btn btn-primary mr-2">Register</button>
+                            <input type="reset" class="btn btn-light" value="Cancel">
+
+
+                </form>
+                <br>
+
+        </div>
+    </div>
+    <!-- content-wrapper ends -->
+    {% include "Admin/footer.html" %}
+
+
+</div>

@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'turfreg/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'turfreg/css/style.css' %}">
+
+</head>
+<body>
+<script src="{% static 'guest/jquery.min.js' %}"></script>
+<script>
+
+    $(document).ready(function() {
+<!--       alert('a');-->
+     $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+      $('#district').change(function () {
+        var district = $(this).val();
+<!--         alert(district);-->
+
+        $.ajax({
+          type: "POST",
+              url: '{% url "selectlocation" %}',
+          data: { did: district },
+          dataType: "json",
+          success: function (data) {
+            $('#location').empty();
+<!--           alert("test");-->
+              $.each(data, function (key, val) {
+        var row = '<option value="'+val.LocationId +'">'+ val.LocationName+'</option>';
+                   $('#location').append(row);
+
+          });
+
+          }
+        });
+      });
+    });
+
+</script>
+
+<div class="main">
+    <div class="container">
+        <div class="signup-content">
+            <div class="signup-img">
+                <img src="{% static 'turfreg/images/dominik-hofbauer-1yLt0422fYQ-unsplash.jpg' %}" alt="">
+            </div>
+            <div class="signup-form">
+                <form method="POST" class="register-form" id="register-form" action="{% url 'turfregistration' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h2>Turf Registration</h2><br>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="name">Turf Name :</label>
+                            <input type="text" name="name" id="name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="state">Category :</label>
+                            <div class="form-select">
+                                <select name="category" id="category">
+                                    <option >--Choose Category--</option>
+                                    {% for n in tob %}
+                                    <option value="{{n.CategoryId}}">{{n.CategoryName}}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="select-icon"><i class="zmdi zmdi-chevron-down"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="state">Turf Size :</label>
+                            <div class="form-select">
+                                <select name="size" id="size">
+                                    <option>--Choose Size--</option>
+                                    {% for m in tos %}
+                                    <option value="{{m.SizeId}}">{{m.Size}}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="select-icon"><i class="zmdi zmdi-chevron-down"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="state">District :</label>
+                            <div class="form-select">
+
+                                <select name="district" id="district">
+                                     <option>--Choose District--</option>
+                                    {% for l in tod %}
+                                    <option value="{{l.DistrictId}}">{{l.DistrictName}}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="select-icon"><i class="zmdi zmdi-chevron-down"></i></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">Location :</label>
+                            <div class="form-select">
+                                <select name="location" id="location">
+                                    <option value="">--select--</option>
+                                </select>
+                                <span class="select-icon"><i class="zmdi zmdi-chevron-down"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pincode">Image :</label>
+                        <input type="file" name="img" id="pincode">
+                    </div>
+                    <div class="form-group">
+                        <label for="pincode">Description :</label>
+                        <textarea name="desc" id="" cols="70" rows="10"></textarea>
+                    </div>
+                    <div class="form-submit">
+                        <input type="submit" value="Reset All" class="submit" name="reset" id="reset"/>
+                        <input type="submit" value="Submit Form" class="submit" name="submit" id="submit"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- JS -->
+<script src="{% static 'turfreg/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'turfreg/js/main.js' %}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

@@ -1,0 +1,55 @@
+{% load static %}
+{% include "Owner/header.html" %}
+<style>
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin: 20px auto; /* Centers the table horizontally */
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #dddddd;
+    }
+</style>
+<br><br><br>
+<center><h3>Bookings</h3></center><br>
+<table border="1" align="center">
+    <tr>
+        <td>SI no</td>
+        <td>Customer Name</td>
+        <td>Booking Date</td>
+        <td>Time</td>
+        <td>Amount</td>
+        <td>Status</td>
+    </tr>
+    {% for d in data %}
+
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{d.customerid.CustomerName}}</td>
+        <td>{{d.date}}</td>
+        <td>{{d.time.Time}}</td>
+        <td>{{d.amount}}</td>
+        <td>{{d.status}}</td>
+    </tr>
+    {% endfor %}
+
+
+</table>
+<br><br>
+
+{% include "Owner/footer.html" %}

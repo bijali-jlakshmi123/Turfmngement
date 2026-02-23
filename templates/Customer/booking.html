@@ -1,0 +1,149 @@
+{% load static %}
+<script src="{% static 'guest/jquery.min.js' %}"></script>
+<script>
+
+    $(document).ready(function() {
+<!--       alert('a');-->
+     $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+
+      $('#date').change(function () {
+        var date = $(this).val();
+        var turf=$('#turf').val()
+<!--         alert(turf);-->
+
+        $.ajax({
+          type: "POST",
+          url: '{% url "selecttime" %}',
+          data: { did: date, tid:turf },
+          dataType: "json",
+          success: function (data) {
+            $('#time').empty();
+            var row1='<option selected></option>'
+              $('#time').append(row1);
+              $.each(data, function (key, val) {
+                  var row = '<option value="' + val.TimeId__TimeId + '"style="color:black;">' + val.TimeId__Time + '</option>';
+              $('#time').append(row);
+          });
+          }
+        });
+      });
+    });
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'booking/fonts/material-icon/css/material-design-iconic-font.min.css '%}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'booking/css/style.css '%}">
+</head>
+<body>
+
+<div class="main">
+
+    <div class="container">
+        <div class="booking-content">
+            <div class="booking-image">
+                <img class="booking-img" src="{% static 'booking/images/CSK _ IPL 2022 _ Illustration work.jpg'%}"
+                     alt="Booking Image">
+            </div>
+            <div class="booking-form" style="background: #7f1717;"><br><br><br><br>
+
+                <form id="booking-form" action="{% url 'booking' turf.TurfId %}" method="POST">
+                    {% csrf_token %}
+                    <h2>Booking Your Slot</h2>
+
+                    <div class="form-group form-input">
+                        <input type="text" name="" id="" value="{{turf.TurfName.capitalize}}"
+                               placeholder="" required/>
+                        <label for="phone" class="form-label">Turf Name</label>
+                    </div>
+
+                    <div class="form-group form-input">
+                        <label for="phone" class="form-label">Choose Date</label><br>
+                        <input type="date" name="date" id="date" placeholder="" required/>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                          var today = new Date();
+                          var dd = String(today.getDate()).padStart(2, '0');
+                          var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                          var yyyy = today.getFullYear();
+
+                          today = yyyy + '-' + mm + '-' + dd;
+                          document.getElementById("date").setAttribute("min", today);
+                        });
+                        </script>
+
+
+                    </div>
+
+                    <div class="form-group form-input">
+                        <input type="hidden" name="name" id="turf" value="{{turf.TurfId}}"
+                               placeholder="" required/>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="select-list">
+                            <label for="phone" class="form-label" style="margin-top:-20px;">Turf time</label>
+                            <br>
+                            <select name="time" id="time" class="form-control" required>
+
+                                <option selected></option>
+                                {% for d in time %}
+                                <option value="{{d.TimeId.TimeId}}" style="color:black;" required>{{d.TimeId.Time}}
+                                </option>
+                                {% endfor %}
+
+                            </select>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group form-input">
+                        <input type="text" name="amount" id="phone" value="{{turf.Amount}}" required/>
+                        <label for="phone" class="form-label">Advance Amount</label>
+                    </div>
+                    <br><br>
+
+                    <div class="form-submit">
+                        <input type="submit" value="Book now" class="submit" id="submit" name="submit"/>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="{% static 'Admin/jquery.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#booking-form').submit(function(event) {
+            if ($('#time').val() === '') {
+                alert('Please select a time.');
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
+<!-- JS -->
+<!--<script src="{% static 'booking/vendor/jquery/jquery.min.js'%}"></script>-->
+<!--<script src="{% static 'booking/js/main.js'%}"></script>-->
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+<a href="{% url 'customerhome' %}">
+    <center>
+        <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/home-buton.png" alt="home-buton"/>
+    </center>
+</a>
+</html>

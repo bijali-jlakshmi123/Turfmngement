@@ -1,0 +1,115 @@
+{% load static %}
+{% include "Customer/header.html" %}
+<script src="{% static 'Guest/jquery.min.js' %}"></script>
+<script>
+
+    $(document).ready(function() {
+<!--       alert('a');-->
+     $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+      $('#district').change(function () {
+        var district = $(this).val();
+<!--         alert(district);-->
+
+        $.ajax({
+          type: "POST",
+              url: '{% url "selectloc" %}',
+          data: { did: district },
+          dataType: "json",
+          success: function (data) {
+            $('#location').empty();
+<!--           alert("test");-->
+              $.each(data, function (key, val) {
+        var row = '<option value="'+val.LocationId +'">'+ val.LocationName+'</option>';
+                   $('#location').append(row);
+
+          });
+
+          }
+        });
+      });
+    });
+
+</script>
+<style>
+    /* Custom CSS styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.col-md-6 {
+    width: 50%;
+    float: left;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+        .custom-button {
+        display: inline-block;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    .custom-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<div class="hero overlay"
+     style="background-image: url('{% static 'Customer/images/jason-dent-QSIq9ncQkzY-unsplash.jpg'%}');">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-9 ml-auto">
+                <br><br>
+                <h1 class="text-white">Search Turf</h1>
+            </div>
+            <form action="{% url 'turfview' %}" method="POST">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-group first">Select Category</label>
+                    <select name="category" id="" class="form-input">
+                        <option selected>--select category--</option>
+                        {% for d in tob %}
+                        <option value="{{d.CategoryId}}">{{d.CategoryName}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-group first">Select District</label>
+                    <select name="" id="district" class="form-input">
+                        <option selected>--select district--</option>
+                        {% for y in you %}
+                        <option value="{{y.DistrictId}}">{{y.DistrictName}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-group first">Select Location</label>
+                    <select name="location" id="location" class="form-input">
+                        <option selected>--select location--</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <br><br>
+                    <a>
+                        <button type="submit" class="custom-button">Search</button>
+                    </a></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% include "Customer/footer.html" %}

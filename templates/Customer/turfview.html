@@ -1,0 +1,42 @@
+{% load static %}
+{% include "Customer/header.html" %}
+
+<div class="hero overlay"
+     style="background-image: url('{% static 'Customer/images/jason-dent-QSIq9ncQkzY-unsplash.jpg'%}');">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-9 ml-auto">
+                <br><br>
+                <h1 class="text-white">Select Turfs</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container site-section">
+    <div class="row">
+        <div class="col-6 title-section">
+            <h2 class="heading">Select Turfs</h2>
+        </div>
+    </div>
+    <div class="row">
+        {% for n in tu %}
+        <div class="col-lg-4 mb-4">
+            <div class="custom-media d-block">
+                <div class="img mb-4">
+<!--                    {{n.Image}}-->
+                    <a href="{% url 'viewmore' id=n.TurfId %}"><img src="/images/{{n.Image}}" alt="Image" class="img-fluid"></a>
+                </div>
+                <div class="text">
+                    <span class="meta">{{n.RegDate}}</span>
+                    <h3 class="mb-4"><a href="{% url 'viewmore' id=n.TurfId %}">{{n.TurfName}}</a></h3>
+                    <p>{{n.Description}}</p>
+                    <p><a href="{% url 'viewmore' id=n.TurfId %}">Details</a></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% include "Customer/footer.html" %}

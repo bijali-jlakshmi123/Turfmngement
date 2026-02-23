@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+{% load static %}
+<script src="{% static 'Guest/jquery.min.js' %}"></script>
+<script>
+
+    $(document).ready(function() {
+<!--       alert('a');-->
+     $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+      $('#district').change(function () {
+        var district = $(this).val();
+<!--         alert(district);-->
+
+        $.ajax({
+          type: "POST",
+              url: '{% url "selectlocation" %}',
+          data: { did: district },
+          dataType: "json",
+          success: function (data) {
+            $('#location').empty();
+<!--           alert("test");-->
+              $.each(data, function (key, val) {
+        var row = '<option value="'+val.LocationId +'">'+ val.LocationName+'</option>';
+                   $('#location').append(row);
+
+          });
+
+          }
+        });
+      });
+    });
+
+</script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'ownerreg/fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'ownerreg/css/style.css' %}">
+</head>
+<body>
+
+<div class="main">
+
+    <section class="signup">
+        <!-- <img src="images/signup-bg.jpg" alt=""> -->
+        <div class="container">
+            <div class="signup-content">
+                <form method="POST" id="signup-form" class="signup-form" action="{% url 'ownerregistration' %}"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h2 class="form-title">Create account</h2>
+
+
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="fname" placeholder="Your First Name" required/>
+                    </div>
+                    <div class="form-group">
+                        <input title="text" class="form-input" name="lname" placeholder="Your Last Name" required/>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-input" name="email" placeholder="Your Email" required/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="cno" placeholder="Your Contact Number" required/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="address" placeholder="Address" required/>
+                    </div>
+
+
+                   <!-- <div class="form-group row">
+                        <input type="file" name="file" class="form-control">
+                    </div> -->
+
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1" class="form-group first">Select District</label>
+                        <select name="district" id="district" class="form-input">
+                            <option selected>select</option>
+                            {% for d in district %}
+                            <option value="{{d.DistrictId}}">{{d.DistrictName}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1" class="form-group first">Select Location</label>
+                        <select name="location" id="location" class="form-input">
+                            <option selected>select</option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="name" class="form-label">Owner photo</label>
+                        <!--                         <input class="form-control" type="file" id="formFile" name="catimage">-->
+                        <input type="file" class="form-input" name="photo" id="name" placeholder="Your Photo" required/>
+                    </div>
+
+
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="uname" id="uname" placeholder="username"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-input" name="password" id="password" placeholder="Password"/>
+                        <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="form-group first">Date of Birth</label>
+                        <input type="date" class="form-input" name="dob" id="dob" placeholder="Date of Birth"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1" class="form-group first">Select Your Gender</label>
+                        <select name="gender" id="gender" class="form-input">
+                            <option selected>select</option>
+
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>
+                        <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all
+                            statements in <a href="#" class="term-service">Terms of service</a></label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" id="submit" class="form-submit" value="Sign up"/>
+                    </div>
+                </form>
+                <p class="loginhere">
+                    Have already an account ? <a href="{% url 'login' %}" class="loginhere-link">Login here</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- JS -->
+<script src="{% static 'ownerreg/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'ownerreg/js/main.js' %}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
