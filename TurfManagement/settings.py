@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-6$yy-jfrre2xqq(vn42_=hb(&2g%__hm_(%4tn6_aaku!sfmtd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['.vercel.app', '.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.vercel.app', '.railway.app', '.onrender.com', '.koyeb.app', 'localhost', '127.0.0.1']
 
 
 # Application definition
